@@ -6,9 +6,6 @@
 package aula09exm01;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionListener;
-
 
 /**
  *
@@ -21,7 +18,8 @@ public class JanelaAluno extends javax.swing.JFrame {
      */
     public JanelaAluno() {
         initComponents();
-       
+        carregaDadosDeTeste();
+
         
     }
 
@@ -96,6 +94,7 @@ public class JanelaAluno extends javax.swing.JFrame {
         });
 
         lstAlunos.setModel(new DefaultListModel<Aluno>());
+        lstAlunos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstAlunos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstAlunosValueChanged(evt);
@@ -190,18 +189,25 @@ public class JanelaAluno extends javax.swing.JFrame {
         btnExcluir.setEnabled(false);
         btnNovo.setEnabled(false);
         txtNome.requestFocus();
+        lstAlunos.clearSelection();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Aluno aluno = new Aluno();
+        DefaultListModel<Aluno> modelo = (DefaultListModel<Aluno>) lstAlunos.getModel();
+        Aluno aluno;
+        if (lstAlunos.isSelectionEmpty()) {
+            aluno = new Aluno();
+            modelo.addElement(aluno);
+        } else {
+            aluno = (Aluno) lstAlunos.getSelectedValue();
+        }
+        
         aluno.setNome(txtNome.getText());
         aluno.setMatricula(txtMatricula.getText());
         aluno.setNota1(Double.parseDouble(txtNota1.getText()));
         aluno.setNota2(Double.parseDouble(txtNota2.getText()));
         aluno.setNota3(Double.parseDouble(txtNota3.getText()));
-        System.out.println(aluno);
-        DefaultListModel<Aluno> modelo = (DefaultListModel<Aluno>) lstAlunos.getModel();
-        modelo.addElement(aluno);
+
         
         btnSalvar.setEnabled(false);
         btnExcluir.setEnabled(false);
@@ -220,24 +226,46 @@ public class JanelaAluno extends javax.swing.JFrame {
 
     private void lstAlunosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAlunosValueChanged
 
-        if(!lstAlunos.isSelectionEmpty()){
+        if (!lstAlunos.isSelectionEmpty()) {
             Aluno aluno = (Aluno) lstAlunos.getSelectedValue();
             System.out.println(aluno);
             btnExcluir.setEnabled(true);
-            btnSalvar.setEnabled(false);
+            btnSalvar.setEnabled(true);
             btnNovo.setEnabled(false);
-        }else{
+            txtNome.setEnabled(true);
+            txtNome.setText(aluno.getNome());
+            txtMatricula.setEnabled(true);
+            txtMatricula.setText(aluno.getMatricula());
+            txtNota1.setEnabled(true);
+            txtNota1.setText(aluno.getNota1().toString());
+            txtNota2.setEnabled(true);
+            txtNota2.setText(aluno.getNota2().toString());
+            txtNota3.setEnabled(true);
+            txtNota3.setText(aluno.getNota3().toString());
+        } else {
             btnExcluir.setEnabled(false);
             btnSalvar.setEnabled(false);
             btnNovo.setEnabled(true);
+            txtNome.setEnabled(false);
+            txtNome.setText("");
+            txtMatricula.setEnabled(false);
+            txtMatricula.setText("");
+            txtNota1.setEnabled(false);
+            txtNota1.setText("");
+            txtNota2.setEnabled(false);
+            txtNota2.setText("");
+            txtNota3.setEnabled(false);
+            txtNota3.setText("");
         }
     }//GEN-LAST:event_lstAlunosValueChanged
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        if(!lstAlunos.isSelectionEmpty()){
+        if (!lstAlunos.isSelectionEmpty()) {
             DefaultListModel<Aluno> modelo = (DefaultListModel<Aluno>) lstAlunos.getModel();
             modelo.removeElementAt(lstAlunos.getSelectedIndex());
+
         }
+        lstAlunos.clearSelection();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
@@ -292,4 +320,13 @@ public class JanelaAluno extends javax.swing.JFrame {
     private javax.swing.JTextField txtNota2;
     private javax.swing.JTextField txtNota3;
     // End of variables declaration//GEN-END:variables
+
+    private void carregaDadosDeTeste() {
+        DefaultListModel<Aluno> modelo = (DefaultListModel<Aluno>) lstAlunos.getModel();
+
+        modelo.addElement(new Aluno("Fulano", "2512312", 80.0, 20.0, 90.0));
+        modelo.addElement(new Aluno("Ciclano", "2512313", 70.0, 60.0, 80.0));
+        modelo.addElement(new Aluno("Beltrano", "2512320", 74.0, 80.0, 100.0));
+
+    }
 }

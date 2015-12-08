@@ -7,6 +7,18 @@ public class Aluno {
     private Double nota2;
     private Double nota3;
 
+    public Aluno() {
+    }
+
+    
+    public Aluno(String nome, String matricula, Double n1, Double n2, Double n3) {
+        this.nome = nome;
+        this.matricula = matricula;
+        this.nota1 = n1;
+        this.nota2 = n2;
+        this.nota3 = n3;
+    }
+
     public String getNome() {
         return nome;
     }
