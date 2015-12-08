@@ -20,7 +20,6 @@ public class JanelaAluno extends javax.swing.JFrame {
         initComponents();
         carregaDadosDeTeste();
 
-        
     }
 
     /**
@@ -197,18 +196,17 @@ public class JanelaAluno extends javax.swing.JFrame {
         Aluno aluno;
         if (lstAlunos.isSelectionEmpty()) {
             aluno = new Aluno();
+            preencheAlunoPeloForm(aluno);
             modelo.addElement(aluno);
         } else {
             aluno = (Aluno) lstAlunos.getSelectedValue();
+            preencheAlunoPeloForm(aluno);
         }
-        
-        aluno.setNome(txtNome.getText());
-        aluno.setMatricula(txtMatricula.getText());
-        aluno.setNota1(Double.parseDouble(txtNota1.getText()));
-        aluno.setNota2(Double.parseDouble(txtNota2.getText()));
-        aluno.setNota3(Double.parseDouble(txtNota3.getText()));
 
-        
+        aguardaNovoRegistro();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void aguardaNovoRegistro() {
         btnSalvar.setEnabled(false);
         btnExcluir.setEnabled(false);
         btnNovo.setEnabled(true);
@@ -222,42 +220,42 @@ public class JanelaAluno extends javax.swing.JFrame {
         txtNota2.setEnabled(false);
         txtNota3.setText("");
         txtNota3.setEnabled(false);
-    }//GEN-LAST:event_btnSalvarActionPerformed
+        lstAlunos.clearSelection();
+    }
+
+    private void preencheAlunoPeloForm(Aluno aluno) throws NumberFormatException {
+        aluno.setNome(txtNome.getText());
+        aluno.setMatricula(txtMatricula.getText());
+        aluno.setNota1(Double.parseDouble(txtNota1.getText()));
+        aluno.setNota2(Double.parseDouble(txtNota2.getText()));
+        aluno.setNota3(Double.parseDouble(txtNota3.getText()));
+    }
 
     private void lstAlunosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAlunosValueChanged
 
         if (!lstAlunos.isSelectionEmpty()) {
             Aluno aluno = (Aluno) lstAlunos.getSelectedValue();
-            System.out.println(aluno);
-            btnExcluir.setEnabled(true);
-            btnSalvar.setEnabled(true);
-            btnNovo.setEnabled(false);
-            txtNome.setEnabled(true);
-            txtNome.setText(aluno.getNome());
-            txtMatricula.setEnabled(true);
-            txtMatricula.setText(aluno.getMatricula());
-            txtNota1.setEnabled(true);
-            txtNota1.setText(aluno.getNota1().toString());
-            txtNota2.setEnabled(true);
-            txtNota2.setText(aluno.getNota2().toString());
-            txtNota3.setEnabled(true);
-            txtNota3.setText(aluno.getNota3().toString());
+            preencheFormViaAluno(aluno);
         } else {
-            btnExcluir.setEnabled(false);
-            btnSalvar.setEnabled(false);
-            btnNovo.setEnabled(true);
-            txtNome.setEnabled(false);
-            txtNome.setText("");
-            txtMatricula.setEnabled(false);
-            txtMatricula.setText("");
-            txtNota1.setEnabled(false);
-            txtNota1.setText("");
-            txtNota2.setEnabled(false);
-            txtNota2.setText("");
-            txtNota3.setEnabled(false);
-            txtNota3.setText("");
+            aguardaNovoRegistro();
         }
     }//GEN-LAST:event_lstAlunosValueChanged
+
+    private void preencheFormViaAluno(Aluno aluno) {
+        btnExcluir.setEnabled(true);
+        btnSalvar.setEnabled(true);
+        btnNovo.setEnabled(false);
+        txtNome.setEnabled(true);
+        txtNome.setText(aluno.getNome());
+        txtMatricula.setEnabled(true);
+        txtMatricula.setText(aluno.getMatricula());
+        txtNota1.setEnabled(true);
+        txtNota1.setText(aluno.getNota1().toString());
+        txtNota2.setEnabled(true);
+        txtNota2.setText(aluno.getNota2().toString());
+        txtNota3.setEnabled(true);
+        txtNota3.setText(aluno.getNota3().toString());
+    }
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         if (!lstAlunos.isSelectionEmpty()) {
