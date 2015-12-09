@@ -322,9 +322,10 @@ public class JanelaAluno extends javax.swing.JFrame {
     private void carregaDadosDeTeste() {
         DefaultListModel<Aluno> modelo = (DefaultListModel<Aluno>) lstAlunos.getModel();
 
-        modelo.addElement(new Aluno("Fulano", "2512312", 80.0, 20.0, 90.0));
-        modelo.addElement(new Aluno("Ciclano", "2512313", 70.0, 60.0, 80.0));
-        modelo.addElement(new Aluno("Beltrano", "2512320", 74.0, 80.0, 100.0));
+        AlunoDAO dao = AlunoDAO.getInstance();
+        for (Aluno aluno : dao.listaTodos()) {
+            modelo.addElement(aluno);
+        }
 
     }
 }
